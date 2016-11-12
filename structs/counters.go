@@ -7,8 +7,8 @@ import (
 
 type Counter struct {
 	sync.RWMutex
-	value int
-	duration int	// milliseconds
+	value    int
+	duration int // milliseconds
 }
 
 type CountersCollection struct {
@@ -18,40 +18,40 @@ type CountersCollection struct {
 
 var COUNTERS = &CountersCollection{v: map[string]*Counter{}}
 
-func (this *Counter) Get () (value int) {
+func (this *Counter) Get() (value int) {
 	this.RLock()
-		value = this.value
+	value = this.value
 	this.RUnlock()
 	return
 }
 
-func (this *Counter) incrBy (incr int) (newval int) {
-	
+func (this *Counter) incrBy(incr int) (newval int) {
+
 	return
 }
 
-func (this *Counter) decrClosure (incr int) (closure func ()) {
-	closure = func () {
+func (this *Counter) decrClosure(incr int) (closure func()) {
+	closure = func() {
 		this.Lock()
-			this.value += incr
+		this.value += incr
 		this.Unlock()
 	}
 	return
 }
 
-func (this *Counter) SetDuration (duration int) {
+func (this *Counter) SetDuration(duration int) {
 	this.Lock()
-		this.duration = duration
+	this.duration = duration
 	this.Unlock()
 	return
 }
 
-func (this *Counter) IncrBy (incr int) (newval int) {
+func (this *Counter) IncrBy(incr int) (newval int) {
 	this.Lock()
-		this.value += incr
-		newval = this.value
-		duration := this.duration
+	this.value += incr
+	newval = this.value
+	duration := this.duration
 	this.Unlock()
-	time.AfterFunc(time.Duration(duration) * time.Millisecond, this.decrClosure(incr))
+	time.AfterFunc(time.Duration(duration)*time.Millisecond, this.decrClosure(incr))
 	return
 }

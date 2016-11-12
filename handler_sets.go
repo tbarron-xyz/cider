@@ -1,20 +1,20 @@
 package main
 
 import (
-	// "fmt"
+// "fmt"
 )
 
-func init () {
-	NewHandler(	// SADD key member [member ...]
-		"SADD", 2, 1, func (args []string) (response itf, err error) {
+func init() {
+	NewHandler( // SADD key member [member ...]
+		"SADD", 2, 1, func(args []string) (response itf, err error) {
 			key, values := args[0], args[1:]
 			s := SETS.GetOrCreateEmpty(key)
 			response = s.Add(values...)
 			return
 		})
 
-	NewHandler(	// SREM key member [member ...]
-		"SREM", 2, 1, func (args []string) (response itf, err error) {
+	NewHandler( // SREM key member [member ...]
+		"SREM", 2, 1, func(args []string) (response itf, err error) {
 			key, values := args[0], args[1:]
 			s, ok := SETS.Get(key)
 			if ok {
@@ -26,7 +26,7 @@ func init () {
 		})
 
 	NewHandler(
-		"SISMEMBER", 2, 0, func (args []string) (response itf, err error) {
+		"SISMEMBER", 2, 0, func(args []string) (response itf, err error) {
 			key, value := args[0], args[1]
 			s, ok := SETS.Get(key)
 			if ok {
@@ -36,12 +36,12 @@ func init () {
 		})
 
 	NewHandler(
-		"SMEMBERS", 1, 0, func (args []string) (response itf, err error) {
+		"SMEMBERS", 1, 0, func(args []string) (response itf, err error) {
 			key := args[0]
 			s, ok := SETS.Get(key)
 			if ok {
 				_ = s
-				response = ""	// CODE THIS
+				response = "" // CODE THIS
 			}
 			//  else {
 			// 	err = fmt.Errorf("Set does not exist.")
@@ -50,7 +50,7 @@ func init () {
 		})
 
 	NewHandler(
-		"SCARD", 1, 1, func (args []string) (response itf, err error) {
+		"SCARD", 1, 1, func(args []string) (response itf, err error) {
 			key := args[0]
 			s, ok := SETS.Get(key)
 			if ok {
@@ -63,7 +63,7 @@ func init () {
 		})
 
 	NewHandler(
-		"SPOP", 1, 0, func (args []string) (response itf, err error) {
+		"SPOP", 1, 0, func(args []string) (response itf, err error) {
 			key := args[0]
 			s, ok := SETS.Get(key)
 			if ok {
@@ -76,7 +76,7 @@ func init () {
 		})
 
 	NewHandler(
-		"SRANDMEMBER", 1, 0, func (args []string) (response itf, err error) {
+		"SRANDMEMBER", 1, 0, func(args []string) (response itf, err error) {
 			key := args[0]
 			s, ok := SETS.Get(key)
 			if ok {

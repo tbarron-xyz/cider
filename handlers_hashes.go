@@ -6,15 +6,15 @@ import (
 	"unicode"
 )
 
-func init () {
+func init() {
 	NewHandler(
-		"HSET", 3, 2, func (args []string) (response itf, err error) {
+		"HSET", 3, 2, func(args []string) (response itf, err error) {
 			var value itf
 			var key, field string
 			key, field, value = args[0], args[1], args[2]
 			h := HASHES.GetOrInit(key)
 			var isint = true
-			for _,e := range args[2] {
+			for _, e := range args[2] {
 				if !unicode.IsNumber(e) {
 					isint = false
 				}
@@ -30,7 +30,7 @@ func init () {
 		})
 
 	NewHandler(
-		"HGET", 2, 1, func (args []string) (response itf, err error) {
+		"HGET", 2, 1, func(args []string) (response itf, err error) {
 			key, field := args[0], args[1]
 			h, ok := HASHES.Get(key)
 			if ok {

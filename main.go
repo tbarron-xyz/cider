@@ -1,41 +1,41 @@
 package main
 
 import (
-	"github.com/gorilla/websocket"
-	"net/http"
-	"github.com/tbarron-xyz/cider/structs"
 	"fmt"
+	"github.com/gorilla/websocket"
+	"github.com/tbarron-xyz/cider/structs"
+	"net/http"
 	// "strings"
-	"strconv"
 	"encoding/json"
+	"strconv"
 )
 
 var (
-	STRINGS = structs.STRINGS
-	SETS = structs.SETS
-	LISTS = structs.LISTS
-	HASHES = structs.HASHES
+	STRINGS  = structs.STRINGS
+	SETS     = structs.SETS
+	LISTS    = structs.LISTS
+	HASHES   = structs.HASHES
 	COUNTERS = structs.COUNTERS
 )
 
 type itf interface{}
 type msi map[string]itf
 
-func errormsi (err error) msi {
-	return msi{"status":"error", "error":err.Error()}
+func errormsi(err error) msi {
+	return msi{"status": "error", "error": err.Error()}
 }
 
-func successmsi (response interface{}) msi {
-	return msi{"status":"success", "response":response}
+func successmsi(response interface{}) msi {
+	return msi{"status": "success", "response": response}
 }
 
-func verbose (args ...interface{}) {
+func verbose(args ...interface{}) {
 	if *_verbose {
 		fmt.Println(args...)
 	}
 }
 
-func single_message (cmd string) msi {
+func single_message(cmd string) msi {
 	// returns	{"status":"success", "response": something}
 	// or 		{"status":"error", "response": err.Error()}
 	var args []string
@@ -60,7 +60,7 @@ func single_message (cmd string) msi {
 	}
 }
 
-func pipeline_message (cmd string) msi {
+func pipeline_message(cmd string) msi {
 	var err error
 	var cmds []string
 	err = json.Unmarshal([]byte(cmd), &cmds)
@@ -68,22 +68,22 @@ func pipeline_message (cmd string) msi {
 		return errormsi(err)
 	}
 	single_responses := make([]msi, len(cmds))
-	for i,e := range cmds {
+	for i, e := range cmds {
 		single_responses[i] = single_message(e)
 	}
 	return successmsi(single_responses)
 }
 
-func handle_message (cmd string) (tosend []byte) {
+func handle_message(cmd string) (tosend []byte) {
 	verbose("<", cmd)
 	var err error
 	if len(cmd) == 0 {
 		return
 	}
-	var handler func(string)msi
-	if cmd[0] == '[' {	// pipelining
+	var handler func(string) msi
+	if cmd[0] == '[' { // pipelining
 		handler = pipeline_message
-	} else {	// single argument
+	} else { // single argument
 		handler = single_message
 	}
 	tosend, err = json.MarshalIndent(handler(cmd), "", "    ") // json.Marshal(handler(cmd))
@@ -93,7 +93,7 @@ func handle_message (cmd string) (tosend []byte) {
 	return
 }
 
-func wsHandler (w http.ResponseWriter, r *http.Request) {
+func wsHandler(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		return
@@ -105,7 +105,7 @@ func wsHandler (w http.ResponseWriter, r *http.Request) {
 		}
 		tosend := handle_message(string(p))
 		err = conn.WriteMessage(messageType, tosend)
-		if  err != nil {
+		if err != nil {
 			return
 		}
 	}
@@ -113,7 +113,7 @@ func wsHandler (w http.ResponseWriter, r *http.Request) {
 
 var upgrader = websocket.Upgrader{}
 
-func main () {
+func main() {
 	http.HandleFunc("/", wsHandler)
 	fmt.Println("Listening on port", *_port)
 	err := http.ListenAndServe(":"+strconv.Itoa(*_port), nil)

@@ -1,43 +1,43 @@
 package main
 
 import (
-	"testing"
 	"encoding/json"
 	"fmt"
+	"testing"
 	//"strconv"
 	//"bytes"
 )
 
-func pa (args []string, err error) {
+func pa(args []string, err error) {
 	fmt.Println("[")
-	for i,e := range args {
+	for i, e := range args {
 		fmt.Println(i, e)
 	}
 	fmt.Println("]")
 }
 
-func BenchmarkQuoteparse (b *testing.B) {
+func BenchmarkQuoteparse(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		quoteparse(`My name is 'Johhnnny' "qhat\'s yours" aaaaaaaa "Ur mum'\'\'" bbb hahaha "us them whatcha gonna do boy" "ending str" '"testing my quoteparse2"'`)
 	}
 }
 
-func BenchmarkQuoteparse2 (b *testing.B) {
-	for i:=0;i<b.N;i++ {
+func BenchmarkQuoteparse2(b *testing.B) {
+	for i := 0; i < b.N; i++ {
 		quoteparse2(`My name is 'Johhnnny' "qhat\'s yours" aaaaaaaa "Ur mum'\'\'" bbb hahaha "us them whatcha gonna do boy" \"testing\ my\ quoteparse2"`)
 	}
 }
 
-func BenchmarkSpaceparse (b *testing.B) {
-	for i:=0;i<b.N;i++ {
+func BenchmarkSpaceparse(b *testing.B) {
+	for i := 0; i < b.N; i++ {
 		spaceparse(`My name is Johhnnny qhat's\ yours aaaaaaaa Ur\ mum'\\'\\' bbb hahaha us\ them\ whatcha\ gonna\ do\ boy ending\ str`)
 	}
 }
 
 var Y []string
 
-func BenchmarkJSONparse (b *testing.B) {
-	for i:=0;i<b.N;i++ {
+func BenchmarkJSONparse(b *testing.B) {
+	for i := 0; i < b.N; i++ {
 		f()
 	}
 }
@@ -49,10 +49,10 @@ func f() {
 	Y = []string{}
 }
 
-func BenchmarkHGET (b *testing.B) {
+func BenchmarkHGET(b *testing.B) {
 	handle_message("HSET mykey myfield myvalue333")
 	b.ResetTimer()
-	for i:=0;i<b.N;i++ {
+	for i := 0; i < b.N; i++ {
 		handle_message("HGET mykey myfield")
 	}
 }
