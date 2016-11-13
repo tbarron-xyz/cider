@@ -37,7 +37,7 @@ func (this *Set) Add(members ...string) (response int) {
 	return
 }
 
-func (this *Set) Remove(name string, members ...string) (response int) {
+func (this *Set) Remove(members ...string) (response int) {
 	this.Lock()
 	for _, member := range members {
 		_, ok := this.s[member]
@@ -45,9 +45,6 @@ func (this *Set) Remove(name string, members ...string) (response int) {
 			delete(this.s, member)
 			response += 1
 		}
-	}
-	if len(this.s) == 0 {
-		defer SETS.Remove(name)
 	}
 	this.Unlock()
 	return

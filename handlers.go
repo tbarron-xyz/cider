@@ -36,12 +36,11 @@ type cmdHandler struct {
 	// expects (base + n*multiple) arguments, for some $n \in \NN_{\ge 0}$
 	name     string
 	base     int
-	multiple int
 	handle   func([]string) (itf, error) // (string, error)
 }
 
 func (this *cmdHandler) Handle(args []string) (response itf, err error) {
-	err = nargchecker(this.name, len(args), this.base, this.multiple)
+	err = nargchecker(this.name, len(args), this.base, 0)
 	if err != nil {
 		return
 	}
@@ -49,8 +48,8 @@ func (this *cmdHandler) Handle(args []string) (response itf, err error) {
 	return
 }
 
-func NewHandler(name string, base, multiple int, handle func([]string) (itf, error)) *cmdHandler {
-	handler := cmdHandler{name, base, multiple, handle}
+func NewHandler(name string, base int, handle func([]string) (itf, error)) *cmdHandler {
+	handler := cmdHandler{name, base, handle}
 	arg0handlers[name] = &handler
 	return &handler
 }

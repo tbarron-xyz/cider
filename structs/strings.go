@@ -1,18 +1,17 @@
 package structs
 
 import (
-	"fmt"
 	"sync"
 )
 
 type StringsCollection struct {
 	sync.RWMutex
-	v msi // map[string]string
+	v map[string]string // map[string]string
 }
 
-var STRINGS = &StringsCollection{v: msi{}}
+var STRINGS = &StringsCollection{v: map[string]string{}}
 
-func (this *StringsCollection) Set(key string, value itf) {
+func (this *StringsCollection) Set(key string, value string) {
 	// O(1)
 	this.Lock()
 	this.v[key] = value
@@ -28,31 +27,12 @@ func (this *StringsCollection) Get(key string) (response itf) {
 	return
 }
 
-func (this *StringsCollection) Append(key, toappend string) (newval string, err error) {
+func (this *StringsCollection) Append(key, toappend string) (newval string) {
 	this.Lock()
 	curval, _ := this.v[key] // if doesn't exist, curval=""
-	switch curval.(type) {
-	case string:
-		newval = curval.(string) + toappend
-		this.v[key] = newval
-	default:
-		err = fmt.Errorf("%s is not a string", key)
-	}
+	newval = curval + toappend
+	this.v[key] = newval
 	this.Unlock()
 	return
 }
 
-// func (this *StringsCollection) GetOrZero (key string) (response string) {
-// 	this.RLock()
-// 		value, ok := this.v[key]
-// 		if !ok {
-// 			this.RUnlock()
-// 			this.Lock()
-// 				this.v[key] = "0"
-// 			this.Unlock()
-// 			value = "0"
-// 		}
-// 		response = value
-// 	this.RUnlock()
-// 	return
-// }

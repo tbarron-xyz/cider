@@ -4,7 +4,7 @@ import ()
 
 func init() {
 	NewHandler( // todo: handle e.g. `SET field1 value1 field2 value2`
-		"LPUSH", 2, 0, func(args []string) (response itf, err error) { // returns the new length of the list
+		"LPUSH", 2, func(args []string) (response itf, err error) { // returns the new length of the list
 			key, value := args[0], args[1]
 			l := LISTS.GetOrInit(key)
 			response = l.LPush(value)
@@ -12,7 +12,7 @@ func init() {
 		})
 
 	NewHandler( // todo: handle e.g. `SET field1 value1 field2 value2`
-		"RPUSH", 2, 0, func(args []string) (response itf, err error) { // returns the new length of the list
+		"RPUSH", 2, func(args []string) (response itf, err error) { // returns the new length of the list
 			key, value := args[0], args[1]
 			l := LISTS.GetOrInit(key)
 			response = l.RPush(value)
@@ -20,7 +20,7 @@ func init() {
 		})
 
 	NewHandler( // todo: handle e.g. `SET field1 value1 field2 value2`
-		"LPOP", 1, 0, func(args []string) (response itf, err error) { // returns the new length of the list
+		"LPOP", 1, func(args []string) (response itf, err error) { // returns the new length of the list
 			key := args[0]
 			l, ok := LISTS.Get(key)
 			if ok {
@@ -30,11 +30,20 @@ func init() {
 		})
 
 	NewHandler( // todo: handle e.g. `SET field1 value1 field2 value2`
-		"RPOP", 1, 0, func(args []string) (response itf, err error) { // returns the new length of the list
+		"RPOP", 1, func(args []string) (response itf, err error) { // returns the new length of the list
 			key := args[0]
 			l, ok := LISTS.Get(key)
 			if ok {
 				response, _ = l.RPop()
+			}
+			return
+		})
+	NewHandler(
+		"LLEN", 1, func(args []string) (response itf, err error) {
+			key := args[0]
+			l, ok := LISTS.Get(key)
+			if ok {
+				response = l.Len()
 			}
 			return
 		})
