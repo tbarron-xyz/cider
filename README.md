@@ -41,7 +41,12 @@ Sets.
 
 
 ## Counters
-Counters are integers that automatically decrement themselves after a specified time increment. This is useful for e.g. knowing the number of visitors to your site in the last 5 minutes.
+Counters are integers that automatically decrement themselves after a specified time increment. This is useful for e.g. knowing the number of visitors to your site in the last 5 minutes. The default duration is 5000 milliseconds.
+- `INCRBY key integer` -> the new value of "key" after being incremented by "integer".
+- `DURATION key milliseconds` -> null. Sets the duration of the timer.
+- `CGET key` -> the current value of "key".
+- `CRESET key` -> JSON `null`. This resets the value to zero and removes all pending decrement timers. Does not change the existing duration.
+
 
 ## Lists (of strings)
 Linked lists (bidirectional).
