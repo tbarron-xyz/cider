@@ -9,7 +9,7 @@ type Counter struct {
 	sync.RWMutex
 	value    int
 	duration int // milliseconds
-	timerId int
+	timerId  int
 }
 
 func NewCounter() (c *Counter) {
@@ -49,7 +49,6 @@ func (this *Counter) Get() (value int) {
 	return
 }
 
-
 func (this *Counter) incrClosure(incr, timerId int) (closure func()) {
 	closure = func() {
 		this.Lock()
@@ -75,7 +74,7 @@ func (this *Counter) IncrBy(incr int) (newval int) {
 	duration := this.duration
 	timerId := this.timerId
 	this.Unlock()
-	time.AfterFunc(time.Duration(duration)*time.Millisecond, this.incrClosure(-incr,timerId))
+	time.AfterFunc(time.Duration(duration)*time.Millisecond, this.incrClosure(-incr, timerId))
 	return
 }
 

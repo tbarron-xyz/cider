@@ -9,12 +9,12 @@ func init() {
 		"INCRBY", 2, func(args []string) (response itf, err error) {
 			key, value := args[0], args[1]
 			c := COUNTERS.GetOrInit(key)
-				var i int
-				i, err = strconv.Atoi(value)
-				if err != nil {
-					return
-				}
-					response = c.IncrBy(i)
+			var i int
+			i, err = strconv.Atoi(value)
+			if err != nil {
+				return
+			}
+			response = c.IncrBy(i)
 			return
 		})
 

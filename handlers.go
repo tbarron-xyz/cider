@@ -34,9 +34,9 @@ func fakeItoa(s *bool, i int) {
 
 type cmdHandler struct {
 	// expects (base + n*multiple) arguments, for some $n \in \NN_{\ge 0}$
-	name     string
-	base     int
-	handle   func([]string) (itf, error) // (string, error)
+	name   string
+	base   int
+	handle func([]string) (itf, error) // (string, error)
 }
 
 func (this *cmdHandler) Handle(args []string) (response itf, err error) {

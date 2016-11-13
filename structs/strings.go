@@ -35,4 +35,3 @@ func (this *StringsCollection) Append(key, toappend string) (newval string) {
 	this.Unlock()
 	return
 }
-
