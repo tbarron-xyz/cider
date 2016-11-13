@@ -1,5 +1,5 @@
 # cider
-A lightweight in-memory data store. (`redis` spelled backwards.) Connections are handled via websockets.
+A lightweight in-memory data store. (`redis` spelled backwards.) Connections are handled via websockets. See [cider-cli](https://github.com/tbarron-xyz/cider-cli) for a basic CLI.
 
 # Command line flags
 - `-port 1234` (default: `6969`) specifies the port to listen on
