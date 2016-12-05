@@ -1,9 +1,5 @@
 package main
 
-import (
-// "fmt"
-)
-
 func init() {
 	NewHandler( // SADD key member [member ...]
 		"SADD", 2, func(args []string) (response itf, err error) {

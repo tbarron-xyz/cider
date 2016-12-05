@@ -1,7 +1,5 @@
 package main
 
-import ()
-
 func init() {
 	NewHandler( // todo: handle e.g. `SET field1 value1 field2 value2`
 		"LPUSH", 2, func(args []string) (response itf, err error) { // returns the new length of the list

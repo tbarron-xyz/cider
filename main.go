@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/gorilla/websocket"
 	"github.com/tbarron-xyz/cider/structs"
-	"net/http"
 	// "strings"
 	"encoding/json"
 	"strconv"
