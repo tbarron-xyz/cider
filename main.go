@@ -1,14 +1,13 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/websocket"
 	"github.com/tbarron-xyz/cider/structs"
-	// "strings"
-	"encoding/json"
-	"strconv"
 )
 
 var (
@@ -18,23 +17,6 @@ var (
 	HASHES   = structs.HASHES
 	COUNTERS = structs.COUNTERS
 )
-
-type itf interface{}
-type msi map[string]itf
-
-func errormsi(err error) msi {
-	return msi{"status": "error", "error": err.Error()}
-}
-
-func successmsi(response interface{}) msi {
-	return msi{"status": "success", "response": response}
-}
-
-func verbose(args ...interface{}) {
-	if *_verbose {
-		fmt.Println(args...)
-	}
-}
 
 func single_message(cmd string) msi {
 	// returns	{"status":"success", "response": something}
@@ -82,12 +64,18 @@ func handle_message(cmd string) (tosend []byte) {
 		return
 	}
 	var handler func(string) msi
+
 	if cmd[0] == '[' { // pipelining
 		handler = pipeline_message
 	} else { // single argument
 		handler = single_message
 	}
-	tosend, err = json.MarshalIndent(handler(cmd), "", "    ") // json.Marshal(handler(cmd))
+
+	if *_indent {
+		tosend, err = json.MarshalIndent(handler(cmd), "", "    ")
+	} else {
+		tosend, err = json.Marshal(handler(cmd))
+	}
 	if err != nil {
 		panic(err.Error())
 	}
@@ -100,11 +88,11 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	for {
-		messageType, p, err := conn.ReadMessage()
+		messageType, msg, err := conn.ReadMessage()
 		if err != nil {
 			return
 		}
-		tosend := handle_message(string(p))
+		tosend := handle_message(string(msg))
 		err = conn.WriteMessage(messageType, tosend)
 		if err != nil {
 			return

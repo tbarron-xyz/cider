@@ -49,15 +49,25 @@ func init() {
 		})
 
 	NewHandler(
-		"HINCRBY", 3, func(args []string) (response itf, err error) {
-			key, field, incr := args[0], args[1], args[2]
-			h := HASHES.GetOrInit(key)
-			var incrint int
-			incrint, err = strconv.Atoi(incr)
-			if err != nil {
-				return
+		"HKEYS", 1, func(args []string) (response itf, err error) {
+			key := args[0]
+			h, ok := HASHES.Get(key)
+			if ok {
+				response = h.Keys()
 			}
-			response, err = h.IncrBy(field, incrint)
 			return
 		})
+
+	// NewHandler(
+	// 	"HINCRBY", 3, func(args []string) (response itf, err error) {
+	// 		key, field, incr := args[0], args[1], args[2]
+	// 		h := HASHES.GetOrInit(key)
+	// 		var incrint int
+	// 		incrint, err = strconv.Atoi(incr)
+	// 		if err != nil {
+	// 			return
+	// 		}
+	// 		response, err = h.IncrBy(field, incrint)
+	// 		return
+	// 	})
 }

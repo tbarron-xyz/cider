@@ -121,32 +121,32 @@ func (this *Hash) Len() (length int) {
 	return
 }
 
-func (this *Hash) IncrBy(field string, incr int) (value int, err error) {
-	// O(1)
-	this.Lock()
-	h := this.h
-	curval, ok := h[field]
-	if !ok {
-		value = 1
-		h[field] = "1"
-		this.Unlock()
-		return
-	}
-	switch curval.(type) {
-	case int:
-		value = curval.(int) + incr
-		h[field] = value
-	default:
-		err = fmt.Errorf("Field value is not an int.")
-	}
-	// var intval int
-	// intval, err = strconv.Atoi(curval)
-	// if err != nil { return }
-	// value = intval + incr
-	// h[field] = strconv.Itoa(value)
-	this.Unlock()
-	return
-}
+// func (this *Hash) IncrBy(field string, incr int) (value int, err error) {
+// 	// O(1)
+// 	this.Lock()
+// 	h := this.h
+// 	curval, ok := h[field]
+// 	if !ok {
+// 		value = 1
+// 		h[field] = "1"
+// 		this.Unlock()
+// 		return
+// 	}
+// 	switch curval.(type) {
+// 	case int:
+// 		value = curval.(int) + incr
+// 		h[field] = value
+// 	default:
+// 		err = fmt.Errorf("Field value is not an int.")
+// 	}
+// 	// var intval int
+// 	// intval, err = strconv.Atoi(curval)
+// 	// if err != nil { return }
+// 	// value = intval + incr
+// 	// h[field] = strconv.Itoa(value)
+// 	this.Unlock()
+// 	return
+// }
 
 func (this *HashesCollection) GetOrInit(key string) (response *Hash) {
 	var ok bool
