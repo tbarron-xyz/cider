@@ -1,6 +1,37 @@
 # cider
 A lightweight in-memory data store. (`redis` spelled backwards.) Connections are handled via websockets. See [cider-cli](https://github.com/tbarron-xyz/cider-cli) for a basic CLI.
 
+## Installation
+To install and run cider, you'll need Go installed. Clone the repository and install dependencies:
+
+```bash
+go get github.com/tbarron-xyz/cider
+go get github.com/gorilla/websocket
+go run main.go
+```
+
+Or build a binary:
+
+```bash
+go build -o cider main.go
+./cider
+```
+
+**Note:** This project predates Go modules and currently requires GOPATH setup.
+
+## Project Structure
+- `main.go`: Entry point, sets up websocket server and handles connections.
+- `structs/`: Contains implementations for in-memory data structures (strings, hashes, sets, counters, lists).
+- `handlers_*.go`: Command handlers for each data structure type.
+- `util.go`: Utility functions.
+- `strparse.go`: String parsing logic for commands.
+
+## Dependencies
+- [gorilla/websocket](https://github.com/gorilla/websocket): For websocket connections.
+
+## License
+MIT License (see LICENSE file).
+
 # Command line flags
 - `-port 1234` (default: `6969`) specifies the port to listen on
 - `-v` (default: false), if enabled, will print all incoming messages to the console
