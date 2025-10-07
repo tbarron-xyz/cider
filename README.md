@@ -2,22 +2,22 @@
 A lightweight in-memory data store. (`redis` spelled backwards.) Connections are handled via websockets. See [cider-cli](https://github.com/tbarron-xyz/cider-cli) for a basic CLI.
 
 ## Installation
-To install and run cider, you'll need Go installed. Clone the repository and install dependencies:
+To install and run cider, you'll need Go installed. Clone the repository:
 
 ```bash
-go get github.com/tbarron-xyz/cider
-go get github.com/gorilla/websocket
-go run main.go
+git clone https://github.com/tbarron-xyz/cider.git
+cd cider
+go run .
 ```
 
 Or build a binary:
 
 ```bash
-go build -o cider main.go
+go build .
 ./cider
 ```
 
-**Note:** This project predates Go modules and currently requires GOPATH setup.
+**Note:** This project uses Go modules.
 
 ## Project Structure
 - `main.go`: Entry point, sets up websocket server and handles connections.
