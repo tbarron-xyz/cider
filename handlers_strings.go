@@ -4,14 +4,14 @@ func init() {
 	NewHandler( // todo: handle e.g. `SET field1 value1 field2 value2`
 		"SET", 2, func(args []string) (response itf, err error) { // cannot fail; returns null
 			key, value := args[0], args[1]
-			STRINGS.Set(key, value)
+			server.Strings.Set(key, value)
 			return
 		})
 
 	NewHandler(
 		"GET", 1, func(args []string) (response itf, err error) { // returns empty string if value does not exist
 			key := args[0]
-			response = STRINGS.Get(key)
+			response = server.Strings.Get(key)
 			return
 		})
 
@@ -25,7 +25,7 @@ func init() {
 			}
 			for _, e := range keyvalues {
 				key, value := e[0], e[1]
-				STRINGS.Append(key, value)
+				server.Strings.Append(key, value)
 			}
 			return
 		})

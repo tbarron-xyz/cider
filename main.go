@@ -10,13 +10,23 @@ import (
 	"github.com/tbarron-xyz/cider/structs"
 )
 
-var (
-	STRINGS  = structs.STRINGS
-	SETS     = structs.SETS
-	LISTS    = structs.LISTS
-	HASHES   = structs.HASHES
-	COUNTERS = structs.COUNTERS
-)
+type Server struct {
+	Strings  *structs.StringsCollection
+	Sets     *structs.SetsCollection
+	Lists    *structs.ListsContainer
+	Hashes   *structs.HashesCollection
+	Counters *structs.CountersCollection
+}
+
+var server = &Server{
+	Strings:  structs.STRINGS,
+	Sets:     structs.SETS,
+	Lists:    structs.LISTS,
+	Hashes:   structs.HASHES,
+	Counters: structs.COUNTERS,
+}
+
+
 
 func single_message(cmd string) msi {
 	// returns	{"status":"success", "response": something}

@@ -4,7 +4,7 @@ func init() {
 	NewHandler( // SADD key member [member ...]
 		"SADD", 2, func(args []string) (response itf, err error) {
 			key, values := args[0], args[1:]
-			s := SETS.GetOrCreateEmpty(key)
+			s := server.Sets.GetOrCreateEmpty(key)
 			response = s.Add(values...)
 			return
 		})
@@ -12,7 +12,7 @@ func init() {
 	NewHandler( // SREM key member [member ...]
 		"SREM", 2, func(args []string) (response itf, err error) {
 			key, values := args[0], args[1:]
-			s, ok := SETS.Get(key)
+			s, ok := server.Sets.Get(key)
 			if ok {
 				response = s.Remove(values...)
 			} else {
@@ -24,7 +24,7 @@ func init() {
 	NewHandler(
 		"SISMEMBER", 2, func(args []string) (response itf, err error) {
 			key, value := args[0], args[1]
-			s, ok := SETS.Get(key)
+			s, ok := server.Sets.Get(key)
 			if ok {
 				response = s.IsMember(value)
 			}
@@ -34,7 +34,7 @@ func init() {
 	NewHandler(
 		"SMEMBERS", 1, func(args []string) (response itf, err error) {
 			key := args[0]
-			s, ok := SETS.Get(key)
+			s, ok := server.Sets.Get(key)
 			if ok {
 				_ = s
 				response = "" // CODE THIS
@@ -45,7 +45,7 @@ func init() {
 	NewHandler(
 		"SCARD", 1, func(args []string) (response itf, err error) {
 			key := args[0]
-			s, ok := SETS.Get(key)
+			s, ok := server.Sets.Get(key)
 			if ok {
 				response = s.Cardinality()
 			}
@@ -55,7 +55,7 @@ func init() {
 	NewHandler(
 		"SPOP", 1, func(args []string) (response itf, err error) {
 			key := args[0]
-			s, ok := SETS.Get(key)
+			s, ok := server.Sets.Get(key)
 			if ok {
 				response = s.Pop()
 			}
@@ -65,7 +65,7 @@ func init() {
 	NewHandler(
 		"SRANDMEMBER", 1, func(args []string) (response itf, err error) {
 			key := args[0]
-			s, ok := SETS.Get(key)
+			s, ok := server.Sets.Get(key)
 			if ok {
 				response = s.RandMember()
 			}
