@@ -1,4 +1,6 @@
 # cider
+![Build Status](https://github.com/tbarron-xyz/cider/actions/workflows/build.yml/badge.svg)
+
 A lightweight in-memory data store. (`redis` spelled backwards.) Connections are handled via websockets. See [cider-cli](https://github.com/tbarron-xyz/cider-cli) for a basic CLI.
 
 ## Installation
